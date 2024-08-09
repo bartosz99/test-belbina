@@ -1,4 +1,4 @@
-export enum QuestionAssign {
+export enum Roles {
   PO = "praktyczny organizator",
   NL = "naturalny lider",
   CZA = "człowiek akcji",

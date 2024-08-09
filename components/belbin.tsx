@@ -16,9 +16,20 @@ import {
 import { Introduction } from "@/components/introduction";
 import { Explanation } from "@/components/explanation";
 import { steps, questions } from "@/constants/index";
+import { Roles } from "@/enums/index";
 
 export const Belbin = () => {
   const [step, setStep] = useState(2);
+  const [points, setPoints] = useState<Record<keyof typeof Roles, number[]>>({
+    PO: [1, 0, 0, 0, 0, 0, 0],
+    NL: [0, 0, 0, 0, 0, 0, 0],
+    CZA: [0, 0, 0, 0, 0, 0, 0],
+    SIE: [0, 0, 0, 0, 0, 0, 0],
+    CZK: [0, 0, 0, 0, 0, 0, 0],
+    SE: [0, 0, 0, 0, 0, 0, 0],
+    CZG: [0, 0, 0, 0, 0, 0, 0],
+    PER: [0, 0, 0, 0, 0, 0, 0],
+  });
 
   const stepsLength = Number(steps.length - 1);
 
@@ -34,7 +45,32 @@ export const Belbin = () => {
               className="max-w-16"
               defaultValue="0"
               type="number"
+              value={
+                points[
+                  Object.keys(Roles)[
+                    Object.values(Roles).indexOf(question.assign)
+                  ] as keyof typeof Roles
+                ][step - 2] as number
+              }
               variant="bordered"
+              onInput={(e) => {
+                setPoints({
+                  ...points,
+                  [Object.keys(Roles)[
+                    Object.values(Roles).indexOf(question.assign)
+                  ] as keyof typeof Roles]: [
+                    ...points[
+                      Object.keys(Roles)[
+                        Object.values(Roles).indexOf(question.assign)
+                      ] as keyof typeof Roles
+                    ].map((point, index) =>
+                      index === step - 2
+                        ? Number(e.currentTarget.value)
+                        : point,
+                    ),
+                  ],
+                });
+              }}
             />
           </TableCell>
         </TableRow>
