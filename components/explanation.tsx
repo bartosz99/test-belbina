@@ -2,7 +2,7 @@
 
 export const Explanation = () => {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 max-w-3xl">
       <p>
         Kwestionariusz ten składa się z szeregu zdań, dotyczących funkcjonowania
         ludzi w grupie. Twoim zadaniem jest rozdzielenie punktów między te
@@ -16,13 +16,13 @@ export const Explanation = () => {
         Każdą z siedmiu części kwestionariusza wypełnij w następujący sposób:
       </p>
       <ol>
-        <li>przeczytaj daną część kwestionariusza w całości</li>
-        <li>zastanów się, które zdania najlepiej Cię opisują;</li>
+        <li>1. Przeczytaj daną część kwestionariusza w całości</li>
+        <li>2. Zastanów się, które zdania najlepiej Cię opisują;</li>
         <li>
-          masz do dyspozycji 10 punktów. Możesz przydzielić 10 punktów tylko
+          3. Masz do dyspozycji 10 punktów. Możesz przydzielić 10 punktów tylko
           jednemu zdaniu, które doskonale opisuje Twoje zachowanie w grupie lub
           też rozdzielić 10 punktów pomiędzy wszystkie lub niektóre zdania
-          opisujące mniej lub bardziej adekwatnie Twoje zachowanie;
+          opisujące mniej lub bardziej adekwatnie Twoje zachowanie
         </li>
       </ol>
     </div>

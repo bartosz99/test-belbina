@@ -15,13 +15,14 @@ import {
 
 import { Introduction } from "@/components/introduction";
 import { Explanation } from "@/components/explanation";
+import { Results } from "@/components/results";
 import { steps, questions } from "@/constants/index";
 import { Roles } from "@/enums/index";
 
 export const Belbin = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [points, setPoints] = useState<Record<keyof typeof Roles, number[]>>({
-    PO: [1, 0, 0, 0, 0, 0, 0],
+    PO: [0, 0, 0, 0, 0, 0, 0],
     NL: [0, 0, 0, 0, 0, 0, 0],
     CZA: [0, 0, 0, 0, 0, 0, 0],
     SIE: [0, 0, 0, 0, 0, 0, 0],
@@ -44,13 +45,13 @@ export const Belbin = () => {
             <Input
               className="max-w-16"
               defaultValue="0"
-              type="number"
+              type={"number"}
               value={
                 points[
                   Object.keys(Roles)[
                     Object.values(Roles).indexOf(question.assign)
                   ] as keyof typeof Roles
-                ][step - 2] as number
+                ][step - 2]
               }
               variant="bordered"
               onInput={(e) => {
@@ -78,7 +79,12 @@ export const Belbin = () => {
     );
 
     return (
-      <Table isCompact isStriped aria-label="Example static collection table">
+      <Table
+        isCompact
+        isStriped
+        aria-label="Example static collection table"
+        className="max-w-2xl"
+      >
         <TableHeader>
           <TableColumn>QUESTION</TableColumn>
           <TableColumn>ANSWER</TableColumn>
@@ -99,7 +105,7 @@ export const Belbin = () => {
       case "Before Results":
         return <p>Before Results</p>;
       case "Results":
-        return <p>Results</p>;
+        return <Results points={points} />;
       default:
         return <p>Belbin Form</p>;
     }
@@ -107,9 +113,7 @@ export const Belbin = () => {
 
   return (
     <div className="flex flex-col items-center">
-      {dynamicComponent()}
-      <div className="w-96">
-        <Progress showValueLabel={true} value={(step / stepsLength) * 100} />
+      <div className="w-96 mb-8">
         <div className="flex items-center justify-center gap-16 mt-4">
           <Button
             isDisabled={step <= 0}
@@ -126,7 +130,9 @@ export const Belbin = () => {
             Next
           </Button>
         </div>
+        <Progress showValueLabel={true} value={(step / stepsLength) * 100} />
       </div>
+      {dynamicComponent()}
     </div>
   );
 };
