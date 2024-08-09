@@ -51,3 +51,15 @@ export const subtitle = tv({
     fullWidth: true,
   },
 });
+
+export const paragraph = tv({
+  base: "w-full md:w-1/2 my-2 text-sm lg:text-sm text-default-500 dark:text-default-200 block max-w-full",
+  variants: {
+    fullWidth: {
+      true: "!w-full",
+    },
+  },
+  defaultVariants: {
+    fullWidth: true,
+  },
+});
