@@ -4,6 +4,7 @@ import { Progress } from "@nextui-org/progress";
 import { useState } from "react";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
+import { Badge } from "@nextui-org/badge";
 import {
   Table,
   TableHeader,
@@ -17,7 +18,7 @@ import { Introduction } from "@/components/introduction";
 import { Explanation } from "@/components/explanation";
 import { Results } from "@/components/results";
 import { steps, questions } from "@/constants/index";
-import { Roles } from "@/enums/index";
+import { Roles, StepsComponents } from "@/enums/index";
 
 export const Belbin = () => {
   const [step, setStep] = useState(0);
@@ -33,6 +34,8 @@ export const Belbin = () => {
   });
 
   const stepsLength = Number(steps.length - 1);
+  const pointsLeft =
+    10 - Object.values(points).reduce((acc, curr) => acc + curr[step - 2], 0);
 
   const getForm = () => {
     if (steps[step].questionSection === null) return;
@@ -113,7 +116,7 @@ export const Belbin = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-96 mb-8">
+      <div className="w-full mb-8">
         <div className="flex items-center justify-center gap-16 mt-4">
           <Button
             isDisabled={step <= 0}
@@ -122,15 +125,35 @@ export const Belbin = () => {
           >
             Back
           </Button>
-          <Button
-            isDisabled={step === stepsLength}
-            radius="full"
-            onPress={() => setStep(step + 1)}
+          <Badge
+            color="success"
+            content={`Points Left: ${pointsLeft}`}
+            isInvisible={
+              steps[step].component !== StepsComponents.Form || pointsLeft === 0
+            }
+            showOutline={false}
+            variant="flat"
           >
-            Next
-          </Button>
+            <Button
+              isDisabled={
+                step === stepsLength ||
+                (steps[step].component === StepsComponents.Form &&
+                  pointsLeft !== 0)
+              }
+              radius="full"
+              onPress={() => setStep(step + 1)}
+            >
+              Next
+            </Button>
+          </Badge>
         </div>
-        <Progress showValueLabel={true} value={(step / stepsLength) * 100} />
+        <div className="w-full flex items-center justify-center">
+          <Progress
+            className="min-w-96 w-96"
+            showValueLabel={true}
+            value={(step / stepsLength) * 100}
+          />
+        </div>
       </div>
       {dynamicComponent()}
     </div>
