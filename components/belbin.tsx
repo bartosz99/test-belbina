@@ -1,7 +1,6 @@
 "use client";
 
 import { Progress } from "@nextui-org/progress";
-import { useState } from "react";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Badge } from "@nextui-org/badge";
@@ -19,10 +18,13 @@ import { Explanation } from "@/components/explanation";
 import { Results } from "@/components/results";
 import { steps, questions } from "@/constants/index";
 import { Roles, StepsComponents } from "@/enums/index";
+import { useLocalStorage } from "@/hooks/index";
 
 export const Belbin = () => {
-  const [step, setStep] = useState(0);
-  const [points, setPoints] = useState<Record<keyof typeof Roles, number[]>>({
+  const [step, setStep] = useLocalStorage<number>("belbin-step", 10);
+  const [points, setPoints] = useLocalStorage<
+    Record<keyof typeof Roles, number[]>
+  >("belbin-points", {
     PO: [0, 0, 0, 0, 0, 0, 0],
     NL: [0, 0, 0, 0, 0, 0, 0],
     CZA: [0, 0, 0, 0, 0, 0, 0],
