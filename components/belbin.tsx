@@ -12,7 +12,10 @@ import {
   TableBody,
   TableCell,
 } from "@nextui-org/table";
+import JSConfetti from "js-confetti";
+import { useState } from "react";
 
+import { BeforeResults } from "@/components/beforeResults";
 import { Introduction } from "@/components/introduction";
 import { Explanation } from "@/components/explanation";
 import { Results } from "@/components/results";
@@ -22,6 +25,10 @@ import { useLocalStorage } from "@/hooks/index";
 
 export const Belbin = () => {
   const [step, setStep] = useLocalStorage<number>("belbin-step", 10);
+
+  const [wasConfettiDisplayed, setWasConfettiDisplayed] =
+    useState<boolean>(false);
+
   const [points, setPoints] = useLocalStorage<
     Record<keyof typeof Roles, number[]>
   >("belbin-points", {
@@ -108,12 +115,21 @@ export const Belbin = () => {
       case "Explanation":
         return <Explanation />;
       case "Before Results":
-        return <p>Before Results</p>;
+        return <BeforeResults displayConfetti={() => displayConfetti()} />;
       case "Results":
         return <Results points={points} />;
       default:
         return <p>Belbin Form</p>;
     }
+  };
+
+  const displayConfetti = () => {
+    if (wasConfettiDisplayed) return;
+    setWasConfettiDisplayed(true);
+
+    const jsConfetti = new JSConfetti();
+
+    jsConfetti.addConfetti();
   };
 
   return (
