@@ -16,3 +16,9 @@ export enum StepsComponents {
   BeforeResults = "Before Results",
   Results = "Results",
 }
+
+export enum ButtonActions {
+  PREV = "Previous",
+  NEXT = "Next",
+  RESET = "Reset",
+}

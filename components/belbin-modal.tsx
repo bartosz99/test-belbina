@@ -12,7 +12,7 @@ import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 
 export const BelbinModal = () => {
-  const TIME_TO_OPEN = 5000;
+  const TIME_TO_OPEN = 5000000;
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isFirstVisit, setIsFirstVisit] = useState<boolean>(true);
   const visitSite = () => {

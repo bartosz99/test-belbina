@@ -1,15 +1,21 @@
-import { StepsComponents } from "@/enums";
+import { StepsComponents, ButtonActions } from "@/enums";
 
 const previousButton = {
-  name: "Previous",
-  type: "button",
+  name: "Wróć",
+  variant: "solid",
+  color: "default",
   hidden: false,
+  isDisabled: false,
+  action: ButtonActions.PREV,
 };
 
 const nextButton = {
-  name: "Next",
-  type: "button",
+  name: "Dalej",
+  variant: "solid",
+  color: "default",
   hidden: false,
+  isDisabled: false,
+  action: ButtonActions.NEXT,
 };
 
 export const steps = [
@@ -18,10 +24,9 @@ export const steps = [
     name: "Introduction",
     questionSection: null,
     component: StepsComponents.Introduction,
-    //extends the previousButton and nextButton objects
     buttons: [
-      { ...previousButton, hidden: true },
-      { ...nextButton, name: "Start" },
+      { ...previousButton, hidden: true, isDisabled: true },
+      { ...nextButton, name: "Rozpocznij test", color: "primary" },
     ],
   },
   {
@@ -29,7 +34,10 @@ export const steps = [
     name: "Explanation",
     questionSection: null,
     component: StepsComponents.Explanation,
-    buttons: [previousButton, nextButton],
+    buttons: [
+      { ...previousButton, name: "Wróć" },
+      { ...nextButton, name: "Przejdź do pytań", color: "primary" },
+    ],
   },
   {
     id: 3,
@@ -85,13 +93,26 @@ export const steps = [
     name: "Before Results",
     questionSection: null,
     component: StepsComponents.BeforeResults,
-    buttons: [previousButton, nextButton],
+    buttons: [
+      previousButton,
+      { ...nextButton, color: "primary", name: "Pokaż wyniki" },
+    ],
   },
   {
     id: 11,
     name: "Results",
     questionSection: null,
     component: StepsComponents.Results,
-    buttons: [previousButton, nextButton],
+    buttons: [
+      {
+        ...previousButton,
+      },
+      {
+        ...nextButton,
+        name: "Zacznij od nowa",
+        color: "primary",
+        action: ButtonActions.RESET,
+      },
+    ],
   },
 ];

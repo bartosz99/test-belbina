@@ -20,7 +20,7 @@ import { Introduction } from "@/components/introduction";
 import { Explanation } from "@/components/explanation";
 import { Results } from "@/components/results";
 import { steps, questions } from "@/constants/index";
-import { Roles, StepsComponents } from "@/enums/index";
+import { Roles, StepsComponents, ButtonActions } from "@/enums/index";
 import { useLocalStorage } from "@/hooks/index";
 
 export const Belbin = () => {
@@ -45,6 +45,20 @@ export const Belbin = () => {
   const stepsLength = Number(steps.length - 1);
   const pointsLeft =
     10 - Object.values(points).reduce((acc, curr) => acc + curr[step - 2], 0);
+
+  const resetTest = () => {
+    setStep(0);
+    setPoints({
+      PO: [0, 0, 0, 0, 0, 0, 0],
+      NL: [0, 0, 0, 0, 0, 0, 0],
+      CZA: [0, 0, 0, 0, 0, 0, 0],
+      SIE: [0, 0, 0, 0, 0, 0, 0],
+      CZK: [0, 0, 0, 0, 0, 0, 0],
+      SE: [0, 0, 0, 0, 0, 0, 0],
+      CZG: [0, 0, 0, 0, 0, 0, 0],
+      PER: [0, 0, 0, 0, 0, 0, 0],
+    });
+  };
 
   const getForm = () => {
     if (steps[step].questionSection === null) return;
@@ -133,14 +147,32 @@ export const Belbin = () => {
   };
 
   const getButtons = (currentPreviousButton: any, currentNextButton: any) => {
+    const handleOnPress = (action: ButtonActions) => {
+      switch (action) {
+        case ButtonActions.PREV:
+          setStep(step - 1);
+          break;
+        case ButtonActions.NEXT:
+          setStep(step + 1);
+          break;
+        case ButtonActions.RESET:
+          resetTest();
+          break;
+        default:
+          break;
+      }
+    };
+
     const previousButton = () => {
       if (currentPreviousButton.hidden) return;
 
       return (
         <Button
-          isDisabled={step <= 0}
+          color={currentPreviousButton.color}
+          isDisabled={currentPreviousButton.isDisabled}
           radius="full"
-          onPress={() => setStep(step - 1)}
+          variant={currentPreviousButton.variant}
+          onPress={() => handleOnPress(currentPreviousButton.action)}
         >
           {currentPreviousButton.name}
         </Button>
@@ -161,13 +193,13 @@ export const Belbin = () => {
           variant="flat"
         >
           <Button
+            color={pointsLeft === 0 ? "primary" : currentNextButton.color}
             isDisabled={
-              step === stepsLength ||
-              (steps[step].component === StepsComponents.Form &&
-                pointsLeft !== 0)
+              pointsLeft !== 0 && steps[step].component === StepsComponents.Form
             }
             radius="full"
-            onPress={() => setStep(step + 1)}
+            variant={currentNextButton.variant}
+            onPress={() => handleOnPress(currentNextButton.action)}
           >
             {currentNextButton.name}
           </Button>
