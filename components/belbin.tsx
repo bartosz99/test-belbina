@@ -132,39 +132,61 @@ export const Belbin = () => {
     jsConfetti.addConfetti();
   };
 
+  const getButtons = (currentPreviousButton: any, currentNextButton: any) => {
+    const previousButton = () => {
+      if (currentPreviousButton.hidden) return;
+
+      return (
+        <Button
+          isDisabled={step <= 0}
+          radius="full"
+          onPress={() => setStep(step - 1)}
+        >
+          {currentPreviousButton.name}
+        </Button>
+      );
+    };
+
+    const nextButton = () => {
+      if (currentNextButton.hidden) return;
+
+      return (
+        <Badge
+          color="success"
+          content={`Points Left: ${pointsLeft}`}
+          isInvisible={
+            steps[step].component !== StepsComponents.Form || pointsLeft === 0
+          }
+          showOutline={false}
+          variant="flat"
+        >
+          <Button
+            isDisabled={
+              step === stepsLength ||
+              (steps[step].component === StepsComponents.Form &&
+                pointsLeft !== 0)
+            }
+            radius="full"
+            onPress={() => setStep(step + 1)}
+          >
+            {currentNextButton.name}
+          </Button>
+        </Badge>
+      );
+    };
+
+    return (
+      <div className="flex items-center justify-center gap-16 mt-4">
+        {previousButton()}
+        {nextButton()}
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col items-center">
       <div className="w-full mb-8">
-        <div className="flex items-center justify-center gap-16 mt-4">
-          <Button
-            isDisabled={step <= 0}
-            radius="full"
-            onPress={() => setStep(step - 1)}
-          >
-            Back
-          </Button>
-          <Badge
-            color="success"
-            content={`Points Left: ${pointsLeft}`}
-            isInvisible={
-              steps[step].component !== StepsComponents.Form || pointsLeft === 0
-            }
-            showOutline={false}
-            variant="flat"
-          >
-            <Button
-              isDisabled={
-                step === stepsLength ||
-                (steps[step].component === StepsComponents.Form &&
-                  pointsLeft !== 0)
-              }
-              radius="full"
-              onPress={() => setStep(step + 1)}
-            >
-              Next
-            </Button>
-          </Badge>
-        </div>
+        {getButtons(steps[step].buttons[0], steps[step].buttons[1])}
         <div className="w-full flex items-center justify-center">
           <Progress
             className="min-w-96 w-96"
